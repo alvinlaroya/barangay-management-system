@@ -12,10 +12,11 @@ $userName = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
 
 // Fetch statistics
 $totalResidents = $conn->query("SELECT COUNT(*) as total FROM residents")->fetch_assoc()['total'];
-$totalClearances = $conn->query("SELECT COUNT(*) as total FROM clearances")->fetch_assoc()['total'];
+$totalClearances = $conn->query("SELECT COUNT(*) as total FROM clearances WHERE resident_id IS NOT NULL")->fetch_assoc()['total'];
 $totalHouseholds = $conn->query("SELECT COUNT(*) as total FROM households")->fetch_assoc()['total'];
 $totalBlotters = $conn->query("SELECT COUNT(*) as total FROM blotters")->fetch_assoc()['total'];
 $totalOfficials = $conn->query("SELECT COUNT(*) as total FROM barangay_officials")->fetch_assoc()['total'];
+$totalAssistanceRequests = $conn->query("SELECT COUNT(*) as total FROM assistance_requests")->fetch_assoc()['total'];
 
 // Gender stats
 $genderResult = $conn->query("SELECT gender, COUNT(*) AS count FROM residents GROUP BY gender");
@@ -103,44 +104,66 @@ while ($r = $residents->fetch_assoc()) {
 
     <div class="row g-4">
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-white bg-primary h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Residents</h5>
-                    <p class="card-text"><?= $totalResidents ?></p>
+            <a href="print/residents.php">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Residents</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text"><?= $totalResidents ?></p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-white bg-success h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Households</h5>
-                    <p class="card-text"><?= $totalHouseholds ?></p>
+            <a href="print/households.php">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Households</h5>
+                        <p class="card-text"><?= $totalHouseholds ?></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-white bg-warning h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Clearances</h5>
-                    <p class="card-text"><?= $totalClearances ?></p>
+             <a href="print/clearance.php">
+                <div class="card text-white bg-warning h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Clearances</h5>
+                        <p class="card-text"><?= $totalClearances ?></p>
+                    </div>
                 </div>
-            </div>
+             </a>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-white bg-danger h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Blotters</h5>
-                    <p class="card-text"><?= $totalBlotters ?></p>
+            <a href="print/blotters.php">
+                <div class="card text-white bg-danger h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Blotters</h5>
+                        <p class="card-text"><?= $totalBlotters ?></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-white bg-info h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Total Officials</h5>
-                    <p class="card-text"><?= $totalOfficials ?></p>
+            <a href="print/officials.php">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Officials</h5>
+                        <p class="card-text"><?= $totalOfficials ?></p>
+                    </div>
                 </div>
-            </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="assistance/index.php">
+                <div class="card text-white bg-secondary h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Assistance Requests</h5>
+                        <p class="card-text"><?= $totalAssistanceRequests ?></p>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 

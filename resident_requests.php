@@ -7,10 +7,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'resident') {
 include 'config.php';
 
 $resident_id = $_SESSION['resident_id'];
+$user_id = $_SESSION['user_id'];
 $full_name = $_SESSION['name'];
 
 $clearances = $conn->query("SELECT * FROM clearances WHERE resident_id = $resident_id ORDER BY issued_date DESC");
 $blotters = $conn->query("SELECT * FROM blotters WHERE complainant = '$full_name' ORDER BY created_at DESC");
+$assistance_requests = $conn->query("SELECT * FROM assistance_requests WHERE user_id = '$user_id' ORDER BY requested_at DESC");
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +132,7 @@ $blotters = $conn->query("SELECT * FROM blotters WHERE complainant = '$full_name
     </div>
 
     <!-- Blotter Complaints Section -->
-    <div class="card p-4">
+    <div class="card p-4 mb-4">
         <h5 class="section-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Blotter Complaints</h5>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -169,6 +171,62 @@ $blotters = $conn->query("SELECT * FROM blotters WHERE complainant = '$full_name
                         <?php endwhile ?>
                     <?php else: ?>
                         <tr><td colspan="6" class="text-center text-muted">No blotter complaints filed.</td></tr>
+                    <?php endif ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Emergency Assistance Requests Section -->
+    <div class="card p-4 mb-4">
+        <h5 class="section-title"><i class="bi bi-exclamation-triangle me-2"></i>Emergency Assistance Requests</h5>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Requested At</th>
+                        <th>Supporting Documents</th>
+                        <th>Proof of Damage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($assistance_requests->num_rows > 0): ?>
+                        <?php while ($a = $assistance_requests->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($a['emergency_type']) ?></td>
+                            <td><?= htmlspecialchars($a['emergency_description']) ?></td>
+                            <td>
+                                <span class="badge bg-<?php
+                                    if (($a['status'] ?? 'Pending') === 'Pending') echo 'warning';
+                                    else if (($a['status'] ?? '') === 'Approved') echo 'success';
+                                    else if (($a['status'] ?? '') === 'Declined') echo 'danger';
+                                    else echo 'secondary';
+                                ?>">
+                                    <?= htmlspecialchars($a['status'] ?? 'Pending') ?>
+                                </span>
+                            </td>
+                            <td><?= date('M d, Y h:i A', strtotime($a['requested_at'])) ?></td>
+                            <td>
+                                <?php if (!empty($a['supporting_documents'])): ?>
+                                    <a href="download.php?type=document&id=<?= $a['id'] ?>" class="btn btn-sm btn-outline-primary">Download</a>
+                                <?php else: ?>
+                                    <span class="text-muted">None</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if (!empty($a['proof_of_damage'])): ?>
+                                    <a href="download.php?type=image&id=<?= $a['id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
+                                <?php else: ?>
+                                    <span class="text-muted">None</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endwhile ?>
+                    <?php else: ?>
+                        <tr><td colspan="6" class="text-center text-muted">No emergency assistance requests found.</td></tr>
                     <?php endif ?>
                 </tbody>
             </table>

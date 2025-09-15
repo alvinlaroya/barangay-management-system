@@ -38,7 +38,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['name'] = $user['name'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: dashboard.php");
+            // Fetch resident data and add to session
+            $resident = null;
+            if (!empty($user['resident_id'])) {
+                $stmt_res = $conn->prepare("SELECT * FROM residents WHERE id = ? LIMIT 1");
+                $stmt_res->bind_param("i", $user['resident_id']);
+                $stmt_res->execute();
+                $res_result = $stmt_res->get_result();
+                if ($res_result->num_rows === 1) {
+                    $resident = $res_result->fetch_assoc();
+                    foreach ($resident as $key => $value) {
+                        $_SESSION[$key] = $value;
+                    }
+                }
+            }
+
+            if($user['role'] === 'admin') {
+                header("Location: dashboard.php");
+            } else {
+                header("Location: resident_dashboard.php");
+            }
             exit();
         } else {
             $error = "Invalid username or password!";

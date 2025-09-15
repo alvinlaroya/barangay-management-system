@@ -11,9 +11,15 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
 <!-- Bootstrap 5 Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: #ffffff; border-bottom: 1px solid #dee2e6;">
   <div class="container-fluid">
-    <a class="navbar-brand fw-semibold text-primary" href="<?= $base ?>/dashboard.php">
-      <i class="bi bi-house-door-fill me-1"></i> Barangay System
-    </a>
+    <?php if (in_array($userRole, ['admin', 'staff'])): ?>
+      <a class="navbar-brand fw-semibold text-primary" href="<?= $base ?>/dashboard.php">
+        <i class="bi bi-house-door-fill me-1"></i> Barangay System
+      </a>
+    <?php elseif ($userRole === 'resident'): ?>
+      <a class="navbar-brand fw-semibold text-primary" href="<?= $base ?>/resident_dashboard.php">
+        <i class="bi bi-house-door-fill me-1"></i> Barangay System
+      </a>
+    <?php endif; ?>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -41,10 +47,16 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
             <a class="nav-link <?= strpos($currentPage, 'officials') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/officials/index.php">Officials</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link <?= strpos($currentPage, 'assistance') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/assistance/index.php">Emergency Assistance</a>
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'reports.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/reports.php">Reports</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'settings.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/settings.php">Settings</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link <?= $currentPage === 'settings.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/announcements/index.php">Announcements</a>
           </li>
         <?php elseif ($userRole === 'resident'): ?>
           <li class="nav-item">
@@ -52,6 +64,9 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'resident_requests.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/resident_requests.php">My Requests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $currentPage === 'resident_announcements.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/resident_announcements.php">Announcements</a>
           </li>
         <?php endif; ?>
       </ul>

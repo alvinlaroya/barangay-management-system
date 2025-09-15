@@ -7,7 +7,11 @@ $resident = $result->fetch_assoc();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     extract($_POST);
     $stmt = $conn->prepare("UPDATE residents SET first_name=?, middle_name=?, last_name=?, suffix=?, gender=?, birthdate=?, age=?, civil_status=?, citizenship=?, religion=?, occupation=?, purok=?, voter_status=?, is_4ps=?, contact=?, email=?, address=? WHERE id=?");
-    $stmt->bind_param("ssssssisssssssssisi", $first_name, $middle_name, $last_name, $suffix, $gender, $birthdate, $age, $civil_status, $citizenship, $religion, $occupation, $purok, $voter_status, $is_4ps, $contact, $email, $address, $id);
+    
+    // Fixed: Added type definition string as first parameter
+    // 's' = string, 'i' = integer
+    $stmt->bind_param("ssssssissssssssssi", $first_name, $middle_name, $last_name, $suffix, $gender, $birthdate, $age, $civil_status, $citizenship, $religion, $occupation, $purok, $voter_status, $is_4ps, $contact, $email, $address, $id);
+    
     $stmt->execute();
     header("Location: index.php");
 }

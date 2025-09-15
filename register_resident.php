@@ -89,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="POST">
             <div class="row mb-2">
-                <div class="col"><input type="text" name="first_name" class="form-control" placeholder="First Name" required></div>
-                <div class="col"><input type="text" name="middle_name" class="form-control" placeholder="Middle Name"></div>
-                <div class="col"><input type="text" name="last_name" class="form-control" placeholder="Last Name" required></div>
+                <div class="col"><input type="text" name="first_name" class="form-control" placeholder="First Name" pattern="[a-zA-Z ]{2,25}" required></div>
+                <div class="col"><input type="text" name="middle_name" class="form-control" placeholder="Middle Name" pattern="[a-zA-Z ]{2,25}"></div>
+                <div class="col"><input type="text" name="last_name" class="form-control" placeholder="Last Name" pattern="[a-zA-Z ]{2,25}" required></div>
                 <div class="col-2"><input type="text" name="suffix" class="form-control" placeholder="Suffix"></div>
             </div>
             <div class="row mb-2">
                 <div class="col-md-3">
-                    <select name="gender" class="form-control" required>
+                    <select name="gender" class="form-select" required>
                         <option value="">Gender</option>
                         <option>Male</option>
                         <option>Female</option>
@@ -104,11 +104,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="col-md-3"><input type="date" name="birthdate" class="form-control" required></div>
                 <div class="col-md-2"><input type="number" name="age" class="form-control" placeholder="Age" required></div>
-                <div class="col-md-4"><input type="text" name="civil_status" class="form-control" placeholder="Civil Status"></div>
+                <div class="col-md-4">
+                     <select name="civil_status" class="form-select id="">
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
+                </div>
             </div>
             <div class="row mb-2">
-                <div class="col-md-4"><input type="text" name="citizenship" class="form-control" placeholder="Citizenship"></div>
-                <div class="col-md-4"><input type="text" name="religion" class="form-control" placeholder="Religion"></div>
+                <div class="col-md-4"><input type="text" name="citizenship" class="form-control" placeholder="Citizenship" pattern="[a-zA-Z ]{2,25}"></div>
+                <div class="col-md-4">
+                    <select name="religion" class="form-select id="">
+                        <option value="Roman Catholic">Roman Catholic</option>
+                        <option value="Protestant">Protestant</option>
+                        <option value="Iglesia ni Cristo">Iglesia ni Cristo</option>
+                        <option value="Philippine Independent Church">Philippine Independent Church (Aglipayan)</option>
+                        <option value="Seventh-day Adventist">Seventh-day Adventist</option>
+                        <option value="Baptist">Baptist</option>
+                        <option value="Methodist">Methodist</option>
+                        <option value="Pentecostal">Pentecostal</option>
+                        <option value="Jehovah's Witnesses">Jehovah's Witnesses</option>
+                        <option value="United Church of Christ">United Church of Christ in the Philippines</option>
+                        <option value="Jesus is Lord Church">Jesus is Lord Church</option>
+                        <option value="Victory Christian Fellowship">Victory Christian Fellowship</option>
+                        <option value="Christ's Commission Fellowship">Christ's Commission Fellowship</option>
+                        <option value="Jesus Miracle Crusade">Jesus Miracle Crusade</option>
+                        <option value="Kingdom of Jesus Christ">Kingdom of Jesus Christ</option>
+                        <option value="Members Church of God International">Members Church of God International (Ang Dating Daan)</option>
+                        <option value="Other Christian">Other Christian</option>
+                    </select>
+                </div>
                 <div class="col-md-4"><input type="text" name="occupation" class="form-control" placeholder="Occupation"></div>
             </div>
             <div class="row mb-2">
@@ -121,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <select name="is_4ps" class="form-control">
+                    <select name="is_4ps" class="form-select">
                         <option value="">4Ps Member?</option>
                         <option>Yes</option>
                         <option>No</option>

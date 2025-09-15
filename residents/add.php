@@ -46,15 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">First Name</label>
-                    <input name="first_name" class="form-control" required>
+                    <input name="first_name" class="form-control" pattern="[a-zA-Z ]{2,25}" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Middle Name</label>
-                    <input name="middle_name" class="form-control">
+                    <input name="middle_name" class="form-control" pattern="[a-zA-Z ]{2,25}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Last Name</label>
-                    <input name="last_name" class="form-control" required>
+                    <input name="last_name" class="form-control" pattern="[a-zA-Z ]{2,25}" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Suffix</label>
@@ -81,7 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Civil Status</label>
-                    <input name="civil_status" class="form-control">
+                    <!-- <input name="civil_status" class="form-control"> -->
+                    <select name="civil_status" class="form-select id="">
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
                 </div>
             </div>
 
@@ -89,11 +93,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">Citizenship</label>
-                    <input name="citizenship" class="form-control">
+                    <input name="citizenship" class="form-control" pattern="[a-zA-Z ]{2,25}">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Religion</label>
-                    <input name="religion" class="form-control">
+                    <!-- <input name="religion" class="form-control"> -->
+                     <select name="religion" class="form-select id="">
+                        <option value="Roman Catholic">Roman Catholic</option>
+                        <option value="Protestant">Protestant</option>
+                        <option value="Iglesia ni Cristo">Iglesia ni Cristo</option>
+                        <option value="Philippine Independent Church">Philippine Independent Church (Aglipayan)</option>
+                        <option value="Seventh-day Adventist">Seventh-day Adventist</option>
+                        <option value="Baptist">Baptist</option>
+                        <option value="Methodist">Methodist</option>
+                        <option value="Pentecostal">Pentecostal</option>
+                        <option value="Jehovah's Witnesses">Jehovah's Witnesses</option>
+                        <option value="United Church of Christ">United Church of Christ in the Philippines</option>
+                        <option value="Jesus is Lord Church">Jesus is Lord Church</option>
+                        <option value="Victory Christian Fellowship">Victory Christian Fellowship</option>
+                        <option value="Christ's Commission Fellowship">Christ's Commission Fellowship</option>
+                        <option value="Jesus Miracle Crusade">Jesus Miracle Crusade</option>
+                        <option value="Kingdom of Jesus Christ">Kingdom of Jesus Christ</option>
+                        <option value="Members Church of God International">Members Church of God International (Ang Dating Daan)</option>
+                        <option value="Other Christian">Other Christian</option>
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Occupation</label>

@@ -49,13 +49,16 @@ $residentName = $_SESSION['name'];
             text-align: center;
             transition: all 0.3s ease-in-out;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
         .action-card:hover {
             transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.2);
         }
         .action-btn {
-            margin-top: 15px;
+            margin-top: auto;
             border-radius: 8px;
             font-weight: 500;
             padding: 10px 15px;
@@ -72,21 +75,28 @@ $residentName = $_SESSION['name'];
         </div>
 
         <div class="row g-4">
-            <div class="col-md-4">
+            <div class="col-md-3 d-flex">
                 <div class="action-card">
                     <h5>Request Clearance</h5>
                     <p>Submit your barangay clearance request online.</p>
                     <a href="resident_clearance_request.php" class="btn btn-success w-100 action-btn">Request Now</a>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 d-flex">
                 <div class="action-card">
                     <h5>File Blotter Complaint</h5>
                     <p>Report incidents or disputes within your community.</p>
                     <a href="resident_blotter_request.php" class="btn btn-danger w-100 action-btn">File Complaint</a>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 d-flex">
+                <div class="action-card">
+                    <h5>Request Emergency Assistance</h5>
+                    <p>Request help due to medical, fire, disaster, or other emergencies, you can quickly otify barangay officials for immediate response.</p>
+                    <a href="resident_assistance_request.php" class="btn btn-warning w-100 action-btn">Request Emergency</a>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
                 <div class="action-card">
                     <h5>My Requests</h5>
                     <p>View the history and status of your past requests.</p>
