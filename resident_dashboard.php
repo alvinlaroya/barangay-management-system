@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'resident') {
@@ -6,6 +7,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'resident') {
 }
 include 'config.php';
 $residentName = $_SESSION['name'];
+
+// Use resident id from session (should be set at login)
+$resident_id = $_SESSION['id'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -63,6 +67,31 @@ $residentName = $_SESSION['name'];
             font-weight: 500;
             padding: 10px 15px;
         }
+        .id-picture-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .id-picture {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            object-fit: contain;
+        }
+        .no-id-text {
+            color: #e0e0e0;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +101,28 @@ $residentName = $_SESSION['name'];
         <div class="welcome-card mb-4">
             <h3 class="dashboard-title">Welcome, <?= htmlspecialchars($residentName) ?> 👋</h3>
             <p class="dashboard-subtitle">You can request a clearance, file a blotter complaint, and view your request history here.</p>
+        </div>
+
+        <!-- ID Picture Display Section -->
+        <div class="id-picture-container">
+            <h5 class="mb-3">Your ID Document</h5>
+            <?php if ($resident_id): ?>
+                <div class="w-100 d-flex flex-column align-items-center">
+                    <img src="get_id_picture.php?id=<?= urlencode($resident_id) ?>" 
+                    alt="ID Picture" 
+                    class="id-picture"
+                    onclick="openImageModal()">
+                    <div class="mt-3">
+                        <small class="text-light">Click image to view full size</small>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="no-id-text">
+                    <i class="fas fa-image fa-3x mb-3" style="opacity: 0.5;"></i>
+                    <p>No ID Document uploaded</p>
+                    <small>Please contact the barangay office to upload your ID document</small>
+                </div>
+            <?php endif; ?>
         </div>
 
         <div class="row g-4">
@@ -92,7 +143,7 @@ $residentName = $_SESSION['name'];
             <div class="col-md-3 d-flex">
                 <div class="action-card">
                     <h5>Request Emergency Assistance</h5>
-                    <p>Request help due to medical, fire, disaster, or other emergencies, you can quickly otify barangay officials for immediate response.</p>
+                    <p>Request help due to medical, fire, disaster, or other emergencies, you can quickly notify barangay officials for immediate response.</p>
                     <a href="resident_assistance_request.php" class="btn btn-warning w-100 action-btn">Request Emergency</a>
                 </div>
             </div>
@@ -105,5 +156,39 @@ $residentName = $_SESSION['name'];
             </div>
         </div>
     </div>
+
+    <!-- Modal for full-size image view -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white" id="imageModalLabel">ID Document</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <?php if ($resident_id): ?>
+                        <img src="get_id_picture.php?id=<?= urlencode($resident_id) ?>" 
+                             alt="ID Picture" 
+                             class="img-fluid rounded">
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add click event to image for modal display
+        document.addEventListener('DOMContentLoaded', function() {
+            const idPicture = document.querySelector('.id-picture');
+            if (idPicture) {
+                idPicture.style.cursor = 'pointer';
+                idPicture.addEventListener('click', function() {
+                    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+                    modal.show();
+                });
+            }
+        });
+    </script>
 </body>
 </html>

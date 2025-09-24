@@ -23,6 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email        = trim($_POST['email']);
     $address      = trim($_POST['address']);
 
+    // Handle file uploads
+    $id_picture = null;
+    $id_picture_type = null;
+    if (isset($_FILES['id_picture']) && $_FILES['id_picture']['error'] === UPLOAD_ERR_OK) {
+        $id_picture = file_get_contents($_FILES['id_picture']['tmp_name']);
+        $id_picture_type = mime_content_type($_FILES['id_picture']['tmp_name']);
+    }
+
     // For login account
     $username  = trim($_POST['username']);
     $password  = sha1($_POST['password']); // NOTE: replace with password_hash() in production
@@ -40,11 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Insert into residents table
         $res_stmt = $conn->prepare("INSERT INTO residents 
-            (first_name, middle_name, last_name, suffix, gender, birthdate, age, civil_status, citizenship, religion, occupation, purok, voter_status, is_4ps, contact, email, address) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $res_stmt->bind_param("ssssssissssssssss", 
+            (first_name, middle_name, last_name, suffix, gender, birthdate, age, civil_status, citizenship, religion, occupation, purok, voter_status, is_4ps, contact, email, address, id_picture, id_picture_type) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $res_stmt->bind_param("ssssssissssssssssbs", 
             $first_name, $middle_name, $last_name, $suffix, $gender, $birthdate, $age, $civil_status,
-            $citizenship, $religion, $occupation, $purok, $voter_status, $is_4ps, $contact, $email, $address);
+            $citizenship, $religion, $occupation, $purok, $voter_status, $is_4ps, $contact, $email, $address, $id_picture, $id_picture_type);
+
+        if ($id_picture !== null) {
+            $res_stmt->send_long_data(17, $id_picture);
+        }
 
         if ($res_stmt->execute()) {
             $resident_id = $conn->insert_id;
@@ -87,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert alert-success"><?= $success ?></div>
         <?php endif; ?>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="row mb-2">
                 <div class="col"><input type="text" name="first_name" class="form-control" placeholder="First Name" pattern="[a-zA-Z ]{2,25}" required></div>
                 <div class="col"><input type="text" name="middle_name" class="form-control" placeholder="Middle Name" pattern="[a-zA-Z ]{2,25}"></div>
@@ -159,6 +171,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <textarea name="address" class="form-control" placeholder="Full Address" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">ID (Image)</label>
+                <input type="file" name="id_picture" class="form-control" accept="image/*">
             </div>
 
             <h5 class="mt-4">Login Information</h5>
