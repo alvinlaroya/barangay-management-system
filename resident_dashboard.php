@@ -142,9 +142,9 @@ $resident_id = $_SESSION['id'] ?? null;
             </div>
             <div class="col-md-3 d-flex">
                 <div class="action-card">
-                    <h5>Request Emergency Assistance</h5>
+                    <h5>Assistance Request</h5>
                     <p>Request help due to medical, fire, disaster, or other emergencies, you can quickly notify barangay officials for immediate response.</p>
-                    <a href="resident_assistance_request.php" class="btn btn-warning w-100 action-btn">Request Emergency</a>
+                    <a href="resident_assistance_request.php" class="btn btn-warning w-100 action-btn">Request Assistance</a>
                 </div>
             </div>
             <div class="col-md-3 d-flex">

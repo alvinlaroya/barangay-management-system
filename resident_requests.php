@@ -179,7 +179,7 @@ $assistance_requests = $conn->query("SELECT * FROM assistance_requests WHERE use
 
     <!-- Emergency Assistance Requests Section -->
     <div class="card p-4 mb-4">
-        <h5 class="section-title"><i class="bi bi-exclamation-triangle me-2"></i>Emergency Assistance Requests</h5>
+        <h5 class="section-title"><i class="bi bi-exclamation-triangle me-2"></i>Assistance Requests</h5>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -226,7 +226,7 @@ $assistance_requests = $conn->query("SELECT * FROM assistance_requests WHERE use
                         </tr>
                         <?php endwhile ?>
                     <?php else: ?>
-                        <tr><td colspan="6" class="text-center text-muted">No emergency assistance requests found.</td></tr>
+                        <tr><td colspan="6" class="text-center text-muted">No assistance requests found.</td></tr>
                     <?php endif ?>
                 </tbody>
             </table>

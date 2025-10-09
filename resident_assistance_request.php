@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Emergency Assistance Request</title>
+    <title>Assistance Request</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background: #f8f9fa; }
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'navbar.php'; ?>
 <div class="container">
     <div class="card p-4">
-        <h4 class="mb-4 text-primary"><i class="bi bi-exclamation-triangle"></i> Emergency Assistance Request</h4>
+        <h4 class="mb-4 text-primary"><i class="bi bi-exclamation-triangle"></i> Assistance Request</h4>
         <?php if (isset($success)): ?>
             <div class="alert alert-success"> <?= htmlspecialchars($success) ?> </div>
         <?php elseif (isset($error)): ?>

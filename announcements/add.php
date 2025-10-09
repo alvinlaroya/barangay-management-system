@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="hidden" id="content" name="content">
             </div>
             
-            <button type="submit" class="btn">Save Article</button>
+            <button type="submit" class="btn">Save Announcement</button>
         </form>
     </div>
 </div>

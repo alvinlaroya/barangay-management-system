@@ -47,7 +47,7 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
             <a class="nav-link <?= strpos($currentPage, 'officials') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/officials/index.php">Officials</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= strpos($currentPage, 'assistance') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/assistance/index.php">Emergency Assistance</a>
+            <a class="nav-link <?= strpos($currentPage, 'assistance') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/assistance/index.php">Assistance Request</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'reports.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/reports.php">Reports</a>
