@@ -207,6 +207,7 @@ INSERT INTO `households` (`id`, `household_no`, `purok`, `address`, `head_of_fam
 CREATE TABLE `household_members` (
   `id` int(11) NOT NULL,
   `household_id` int(11) DEFAULT NULL,
+  `resident_id` int(11) DEFAULT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `gender` enum('Male','Female','Other') DEFAULT NULL,
@@ -220,6 +221,22 @@ CREATE TABLE `household_members` (
 
 INSERT INTO `household_members` (`id`, `household_id`, `full_name`, `birthdate`, `gender`, `relation_to_head`, `occupation`) VALUES
 (1, 1, 'testing', '2025-06-06', 'Male', 'testing', 'testing');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `incident_reports`
+--
+
+CREATE TABLE `incident_reports` (
+  `id` int(11) NOT NULL,
+  `secretary_name` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'Pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -343,7 +360,15 @@ ALTER TABLE `households`
 --
 ALTER TABLE `household_members`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `household_id` (`household_id`);
+  ADD KEY `household_id` (`household_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `incident_reports`
+--
+ALTER TABLE `incident_reports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `residents`
@@ -405,6 +430,12 @@ ALTER TABLE `household_members`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `incident_reports`
+--
+ALTER TABLE `incident_reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `residents`
 --
 ALTER TABLE `residents`
@@ -430,7 +461,14 @@ ALTER TABLE `clearances`
 -- Constraints for table `household_members`
 --
 ALTER TABLE `household_members`
-  ADD CONSTRAINT `household_members_ibfk_1` FOREIGN KEY (`household_id`) REFERENCES `households` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `household_members_ibfk_1` FOREIGN KEY (`household_id`) REFERENCES `households` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `household_members_resident_fk` FOREIGN KEY (`resident_id`) REFERENCES `residents` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `incident_reports`
+--
+ALTER TABLE `incident_reports`
+  ADD CONSTRAINT `incident_reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

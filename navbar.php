@@ -49,6 +49,9 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
           <li class="nav-item">
             <a class="nav-link <?= strpos($currentPage, 'assistance') === 0 ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/assistance/index.php">Assistance Request</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link <?= strpos($currentPage, 'admin_index.php') !== false && strpos($_SERVER['REQUEST_URI'], 'incident_reports') !== false ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/incident_reports/admin_index.php">Incident Reports</a>
+          </li>
           <!-- <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'reports.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/reports.php">Reports</a>
           </li>
@@ -64,6 +67,9 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'resident_requests.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/resident_requests.php">My Requests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= strpos($currentPage, 'index.php') !== false && strpos($_SERVER['REQUEST_URI'], 'incident_reports') !== false ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/incident_reports/index.php">Incident Reports</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $currentPage === 'resident_announcements.php' ? 'active fw-bold text-primary' : '' ?>" href="<?= $base ?>/resident_announcements.php">Announcements</a>

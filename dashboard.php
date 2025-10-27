@@ -17,6 +17,15 @@ $totalHouseholds = $conn->query("SELECT COUNT(*) as total FROM households")->fet
 $totalBlotters = $conn->query("SELECT COUNT(*) as total FROM blotters")->fetch_assoc()['total'];
 $totalOfficials = $conn->query("SELECT COUNT(*) as total FROM barangay_officials")->fetch_assoc()['total'];
 $totalAssistanceRequests = $conn->query("SELECT COUNT(*) as total FROM assistance_requests")->fetch_assoc()['total'];
+// Check if incident_reports table exists and get count
+$totalIncidentReports = 0;
+$incidentReportsResult = $conn->query("SELECT COUNT(*) as total FROM incident_reports");
+if ($incidentReportsResult) {
+    $totalIncidentReports = $incidentReportsResult->fetch_assoc()['total'];
+} else {
+    // Table might not exist - check error
+    error_log("Incident reports query failed: " . $conn->error);
+}
 
 // Gender stats
 $genderResult = $conn->query("SELECT gender, COUNT(*) AS count FROM residents GROUP BY gender");
@@ -36,6 +45,15 @@ while ($r = $residents->fetch_assoc()) {
     else if ($age <= 35) $ageGroups['18-35']++;
     else if ($age <= 60) $ageGroups['36-60']++;
     else $ageGroups['61+']++;
+}
+
+// Incident Reports status stats
+$incidentStatusData = ['Pending' => 0, 'Under Review' => 0, 'Approved' => 0, 'Rejected' => 0];
+$incidentStatusResult = $conn->query("SELECT status, COUNT(*) AS count FROM incident_reports GROUP BY status");
+if ($incidentStatusResult) {
+    while ($row = $incidentStatusResult->fetch_assoc()) {
+        $incidentStatusData[$row['status']] = $row['count'];
+    }
 }
 ?>
 
@@ -165,19 +183,38 @@ while ($r = $residents->fetch_assoc()) {
                 </div>
             </a>
         </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="incident_reports/admin_index.php">
+                <div class="card text-white bg-dark h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Incident Reports</h5>
+                        <p class="card-text"><?= $totalIncidentReports ?></p>
+                        <?php if ($totalIncidentReports == 0): ?>
+                            <small class="text-muted">Click to manage</small>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 
     <div class="row mt-5 g-4">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="card p-3 shadow-sm">
                 <h5 class="card-title text-center">Gender Distribution</h5>
-                <canvas id="genderChart" height="300"></canvas>
+                <canvas id="genderChart" height="250"></canvas>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="card p-3 shadow-sm">
                 <h5 class="card-title text-center">Age Group Distribution</h5>
-                <canvas id="ageChart" height="300"></canvas>
+                <canvas id="ageChart" height="250"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card p-3 shadow-sm">
+                <h5 class="card-title text-center">Incident Reports Status</h5>
+                <canvas id="incidentChart" height="250"></canvas>
             </div>
         </div>
     </div>
@@ -241,6 +278,38 @@ new Chart(ageCtx, {
         },
         plugins: {
             legend: { display: false }
+        }
+    }
+});
+
+// Incident Reports Status Chart
+const incidentCtx = document.getElementById('incidentChart').getContext('2d');
+new Chart(incidentCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Pending', 'Under Review', 'Approved', 'Rejected'],
+        datasets: [{
+            label: 'Incident Reports Status',
+            data: [
+                <?= $incidentStatusData['Pending'] ?? 0 ?>,
+                <?= $incidentStatusData['Under Review'] ?? 0 ?>,
+                <?= $incidentStatusData['Approved'] ?? 0 ?>,
+                <?= $incidentStatusData['Rejected'] ?? 0 ?>
+            ],
+            backgroundColor: ['#ffc107', '#0dcaf0', '#198754', '#dc3545']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { 
+                position: 'bottom',
+                labels: {
+                    font: {
+                        size: 10
+                    }
+                }
+            }
         }
     }
 });

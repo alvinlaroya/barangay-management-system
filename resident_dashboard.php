@@ -142,11 +142,21 @@ $resident_id = $_SESSION['id'] ?? null;
             </div>
             <div class="col-md-3 d-flex">
                 <div class="action-card">
+                    <h5>Incident Report</h5>
+                    <p>Create detailed incident reports with rich text formatting for official documentation.</p>
+                    <a href="incident_reports/index.php" class="btn btn-info w-100 action-btn">Create Report</a>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="action-card">
                     <h5>Assistance Request</h5>
                     <p>Request help due to medical, fire, disaster, or other emergencies, you can quickly notify barangay officials for immediate response.</p>
                     <a href="resident_assistance_request.php" class="btn btn-warning w-100 action-btn">Request Assistance</a>
                 </div>
             </div>
+        </div>
+        
+        <div class="row g-4 mt-3">
             <div class="col-md-3 d-flex">
                 <div class="action-card">
                     <h5>My Requests</h5>

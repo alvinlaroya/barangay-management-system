@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Birthdate</label>
-                    <input type="date" name="birthdate" class="form-control" required>
+                    <input type="date" name="birthdate" class="form-control" max="<?php echo date('Y-m-d', strtotime('-1 day')); ?>" required>
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Age</label>
