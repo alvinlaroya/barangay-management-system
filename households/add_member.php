@@ -167,16 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 <?php elseif ($total_residents > 0 && count($residents_array) > 0): ?>
                     <!-- Debug info - can be removed later -->
-                    <div class="alert alert-info" role="alert">
-                        <small><strong>Debug:</strong> Found <?= $total_residents ?> residents. First few: 
-                        <?php 
-                        $first_few = array_slice($residents_array, 0, 3);
-                        foreach ($first_few as $r) {
-                            echo htmlspecialchars($r['first_name'] . ' ' . $r['last_name']) . ', ';
-                        }
-                        ?>
-                        </small>
-                    </div>
+                   
                 <?php endif; ?>
                 
                 <form method="POST" id="memberForm">
